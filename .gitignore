@@ -1,5 +1,16 @@
+```
+# Compiled Python files
+*.pyc
+__pycache__/
+
+# Excel files (likely generated/output files)
+*.xlsx
+
+# Dependencies
+venv/
+.venv/
 node_modules/
-.next/
+```.next/
 dist/
 build/
 *.log
