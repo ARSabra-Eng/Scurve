@@ -3,14 +3,9 @@
 *.pyc
 __pycache__/
 
-# Excel files (likely generated/output files)
-*.xlsx
-
-# Dependencies
-venv/
-.venv/
-node_modules/
-```.next/
-dist/
-build/
+# Logs
 *.log
+
+# Excel export files
+*.xlsx
+```

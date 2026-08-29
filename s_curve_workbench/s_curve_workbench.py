@@ -46,22 +46,19 @@ logger = logging.getLogger(__name__)
 
 def compute_F(T: float, A: float, B: float) -> float:
     """
-    Compute the cumulative percentage F(T) using a cubic Bezier formulation.
+    Compute the cumulative percentage F(T) using the normative polynomial formula.
+    
+    F(T) = 10·T²·(1−T)²·(A + B·T) + T⁴·(5 − 4·T), for 0<T<1
+    F(T) = 0 for T≤0
+    F(T) = 1 for T≥1
     
     This implements a parametric S-curve where:
     - A controls front-loading (higher A = more spend early)  
     - B controls back-loading (higher B = more spend late)
     
-    The formula uses Bernstein polynomial basis for a cubic Bezier curve:
-    F(T) = 3*T*(1-T)^2*P1 + 3*T^2*(1-T)*P2 + T^3
-    
-    Where control points P1, P2 are derived from shape parameters A, B.
-    The mapping ensures:
+    The formula ensures:
     - F(0) = 0, F(1) = 1 (boundary conditions)
-    - Monotonicity for admissible parameters
-    - Rear Loaded (A=0,B=0): standard S-curve behavior (P1=1/3, P2=2/3)
-    - Front Loaded (A=1,B=0): steeper initial rise
-    - Mid Loaded (A=0,B=1): delayed expenditure profile
+    - Smooth S-curve behavior for admissible parameters
     
     Parameters:
         T: Normalized time in [0, 1]
@@ -71,25 +68,22 @@ def compute_F(T: float, A: float, B: float) -> float:
     Returns:
         Cumulative percentage F(T) in [0, 1]
     """
-    T = max(0.0, min(1.0, T))  # Clamp T to [0, 1]
+    # Handle boundary conditions
+    if T <= 0:
+        return 0.0
+    if T >= 1:
+        return 1.0
     
-    # Map A, B to Bezier control points
-    # Standard S-curve (Rear Loaded A=B=0): P1=1/3, P2=2/3
-    # 
-    # The control point mapping is designed to:
-    # - Keep P1, P2 in reasonable ranges for monotonicity
-    # - Allow shape variation based on A and B
-    # - Maintain proper boundary conditions
+    # Normative formula: F(T) = 10·T²·(1−T)²·(A + B·T) + T⁴·(5 − 4·T)
+    T_sq = T * T
+    T_fourth = T_sq * T_sq
+    one_minus_T = 1.0 - T
+    one_minus_T_sq = one_minus_T * one_minus_T
     
-    # Linear interpolation from base S-curve
-    # When A increases: lower P1 (steeper start), higher P2 (faster completion)
-    # When B increases: higher P1 (delayed start), lower P2 (extended tail)
-    P1 = 0.333 - 0.30 * A + 0.15 * B
-    P2 = 0.667 + 0.20 * A - 0.25 * B
+    term1 = 10.0 * T_sq * one_minus_T_sq * (A + B * T)
+    term2 = T_fourth * (5.0 - 4.0 * T)
     
-    # Cubic Bezier: F(T) = (1-T)^3*P0 + 3T(1-T)^2*P1 + 3T^2(1-T)*P2 + T^3*P3
-    # With P0=0, P3=1
-    result = 3 * T * (1 - T)**2 * P1 + 3 * T**2 * (1 - T) * P2 + T**3
+    result = term1 + term2
     
     return result
 
