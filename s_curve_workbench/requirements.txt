@@ -1,0 +1,17 @@
+# Parametric S-Curve Workbench - Dependencies
+# Python 3.12+
+
+# GUI Framework
+PySide6>=6.6.0
+
+# Plotting
+matplotlib>=3.8.0
+
+# Excel I/O
+openpyxl>=3.1.0
+
+# Numerical computation
+numpy>=1.26.0
+
+# Packaging (for .exe creation)
+pyinstaller>=6.0.0
