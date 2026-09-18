@@ -20,7 +20,8 @@ from PySide6.QtWidgets import (
     QTableWidget, QTableWidgetItem, QHeaderView, QMessageBox,
     QFileDialog, QFrame, QScrollArea, QComboBox, QDateEdit,
     QDoubleSpinBox, QSpinBox, QTextEdit, QSplitter, QToolBar,
-    QStatusBar, QMenu, QMenuBar, QTabWidget, QFormLayout, QInputDialog
+    QStatusBar, QMenu, QMenuBar, QTabWidget, QFormLayout, QInputDialog,
+    QAbstractItemView
 )
 from PySide6.QtGui import QAction, QFont, QColor, QPalette, QActionGroup
 from PySide6.QtCore import Qt, Signal, Slot, QDate, QTimer

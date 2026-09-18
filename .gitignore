@@ -1,11 +1,30 @@
 ```
-# Compiled Python files
-*.pyc
+# Python
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+.ENV
+.env
+.env.*
+.venv/
+venv/
+ENV/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+*.egg
 
 # Logs
 *.log
 
-# Excel export files
-*.xlsx
+# OS generated files
+.DS_Store
+Thumbs.db
 ```
